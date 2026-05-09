@@ -1,0 +1,731 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chinh Phục Mẹ</title>
+    <style>
+      :root {
+        --paper-bg: #eef4fb;
+        --card-bg: #f7fbff;
+        --text-main: #1b2a38;
+        --text-muted: #5a6a79;
+        --border-color: #c7d6e6;
+        --shadow-color: rgba(20, 38, 58, 0.18);
+        --tag-bg: rgba(82, 135, 185, 0.16);
+        --tag-color: #2c6aa3;
+        --accent: #4b89c4;
+        --accent-pink: #d4739a;
+        --accent-rose: #c76b8a;
+        --line-color: rgba(156, 185, 215, 0.4);
+        --spine: rgba(91, 128, 168, 0.16);
+        --staple: #97a6b6;
+        --grid-line: rgba(156, 185, 215, 0.18);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Noto Serif", "Times New Roman", serif;
+        background: transparent;
+        color: var(--text-main);
+        padding: 12px;
+        line-height: 1.5;
+        font-size: 14px;
+      }
+
+      .folder-frame {
+        max-width: 720px;
+        margin: 0 auto;
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 16px 36px var(--shadow-color);
+      }
+
+      .folder-shell {
+        position: relative;
+        padding: 16px 18px 18px 56px;
+        border-radius: 18px;
+        border: 1px solid var(--border-color);
+        background-color: var(--paper-bg);
+        background-image:
+          linear-gradient(transparent 21px, var(--grid-line) 22px),
+          linear-gradient(90deg, transparent 21px, var(--grid-line) 22px);
+        background-size: 22px 22px;
+      }
+
+      .folder-shell::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        bottom: 0;
+        width: 40px;
+        background: linear-gradient(180deg, var(--spine), transparent 60%);
+        border-right: 1px solid var(--border-color);
+      }
+
+      .folder-shell::after {
+        content: "";
+        position: absolute;
+        left: 16px;
+        top: 28px;
+        width: 10px;
+        height: 10px;
+        border: 2px solid var(--staple);
+        border-radius: 50%;
+        box-shadow:
+          0 90px 0 0 var(--staple),
+          0 180px 0 0 var(--staple),
+          0 270px 0 0 var(--staple),
+          0 360px 0 0 var(--staple),
+          0 450px 0 0 var(--staple);
+        opacity: 0.8;
+      }
+
+      .folder-header {
+        position: relative;
+        display: flex;
+        align-items: flex-end;
+        justify-content: space-between;
+        gap: 12px;
+        padding-bottom: 12px;
+        border-bottom: 1px dashed var(--border-color);
+        margin-bottom: 16px;
+      }
+
+      .brand-block {
+        border: 1px solid var(--border-color);
+        background: var(--card-bg);
+        border-radius: 14px;
+        padding: 10px 14px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        box-shadow: 0 8px 18px var(--shadow-color);
+      }
+
+      .brand-code {
+        font-size: 0.7rem;
+        letter-spacing: 0.2em;
+        color: var(--text-muted);
+      }
+
+      .brand-title {
+        font-size: 1.15rem;
+        font-weight: 700;
+        color: var(--text-main);
+      }
+
+      .author-tag {
+        font-size: 0.78rem;
+        padding: 3px 8px;
+        background: var(--tag-bg);
+        border-radius: 999px;
+        color: var(--tag-color);
+      }
+
+      .content-area {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+      }
+
+      .info-card {
+        position: relative;
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 14px;
+        overflow: hidden;
+        box-shadow: 0 6px 16px var(--shadow-color);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+      }
+
+      .info-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 24px var(--shadow-color);
+      }
+
+      .info-card::before {
+        content: "";
+        position: absolute;
+        top: -6px;
+        right: 18px;
+        width: 42px;
+        height: 12px;
+        background: rgba(82, 135, 185, 0.18);
+        border: 1px dashed rgba(82, 135, 185, 0.35);
+        border-radius: 4px;
+        transform: rotate(-2deg);
+      }
+
+      .card-header {
+        padding: 10px 14px;
+        font-size: 0.9rem;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        border-bottom: 1px dashed var(--border-color);
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .card-header.pink {
+        background: linear-gradient(90deg, rgba(212, 115, 154, 0.15), transparent);
+        color: var(--accent-pink);
+      }
+
+      .card-header.blue {
+        background: linear-gradient(90deg, rgba(75, 137, 196, 0.15), transparent);
+        color: var(--accent);
+      }
+
+      .card-header.rose {
+        background: linear-gradient(90deg, rgba(199, 107, 138, 0.15), transparent);
+        color: var(--accent-rose);
+      }
+
+      .card-header.gold {
+        background: linear-gradient(90deg, rgba(196, 160, 75, 0.15), transparent);
+        color: #a08040;
+      }
+
+      .card-body {
+        padding: 12px 14px;
+      }
+
+      .notice-box {
+        padding: 10px 12px;
+        background: rgba(82, 135, 185, 0.08);
+        border-left: 3px solid var(--accent);
+        font-size: 0.85rem;
+        line-height: 1.7;
+        color: var(--text-muted);
+      }
+
+      .notice-box.warning {
+        border-left-color: var(--accent-pink);
+        background: rgba(212, 115, 154, 0.08);
+      }
+
+      .notice-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 8px;
+        margin-bottom: 6px;
+      }
+
+      .notice-item:last-child {
+        margin-bottom: 0;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 10px;
+        background: rgba(82, 135, 185, 0.06);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        margin-bottom: 6px;
+        transition: all 0.15s ease;
+      }
+
+      .info-row:hover {
+        background: rgba(82, 135, 185, 0.12);
+        transform: translateX(2px);
+      }
+
+      .info-row:last-child {
+        margin-bottom: 0;
+      }
+
+      .info-label {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .info-label::before {
+        content: "▸";
+        color: var(--accent);
+        font-size: 0.7rem;
+      }
+
+      .info-value {
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--text-main);
+      }
+
+      .community-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 12px;
+      }
+
+      .community-card {
+        background: linear-gradient(135deg, var(--accent), #3a7ab8);
+        color: #fff;
+        padding: 18px 14px;
+        text-align: center;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: 0 6px 16px var(--shadow-color);
+      }
+
+      .community-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 24px var(--shadow-color);
+      }
+
+      .community-card:active {
+        transform: translateY(1px);
+      }
+
+      .community-icon {
+        font-size: 1.8em;
+        margin-bottom: 8px;
+      }
+
+      .community-title {
+        font-size: 0.95em;
+        font-weight: 700;
+        margin-bottom: 6px;
+      }
+
+      .community-info {
+        font-size: 0.75em;
+        opacity: 0.9;
+        line-height: 1.5;
+      }
+
+      .opening-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 12px;
+      }
+
+      .opening-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 14px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .opening-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        background: linear-gradient(90deg, var(--accent-pink), transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      .opening-card:hover::before {
+        opacity: 1;
+      }
+
+      .opening-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px var(--shadow-color);
+        border-color: var(--accent-pink);
+      }
+
+      .opening-card:active {
+        transform: translateY(1px);
+      }
+
+      .opening-badge {
+        display: inline-block;
+        background: linear-gradient(135deg, var(--accent-pink), var(--accent-rose));
+        color: #fff;
+        padding: 3px 10px;
+        font-size: 0.7em;
+        margin-bottom: 8px;
+        font-weight: 700;
+        letter-spacing: 1px;
+        border-radius: 4px;
+        box-shadow: 0 2px 6px rgba(212, 115, 154, 0.3);
+      }
+
+      .opening-title {
+        font-size: 1em;
+        font-weight: 700;
+        color: var(--accent-pink);
+        margin-bottom: 8px;
+      }
+
+      .opening-desc {
+        font-size: 0.82rem;
+        color: var(--text-muted);
+        line-height: 1.7;
+      }
+
+      .footer-note {
+        text-align: center;
+        padding: 18px;
+        font-size: 1.1em;
+        font-weight: 700;
+        color: var(--accent);
+        background: var(--card-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px var(--shadow-color);
+        position: relative;
+      }
+
+      .footer-note::before,
+      .footer-note::after {
+        content: "";
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50%;
+        height: 1px;
+        background: linear-gradient(90deg, transparent, var(--accent), transparent);
+      }
+
+      .footer-note::before {
+        top: 6px;
+      }
+
+      .footer-note::after {
+        bottom: 6px;
+      }
+
+      .preset-note {
+        font-size: 0.8rem;
+        color: var(--text-muted);
+        padding: 10px 12px;
+        background: rgba(82, 135, 185, 0.08);
+        border-left: 3px solid var(--accent);
+        margin-top: 10px;
+        border-radius: 0 8px 8px 0;
+      }
+
+      .qq-warning {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        margin-top: 12px;
+        padding: 10px 14px;
+        background: linear-gradient(90deg, rgba(212, 115, 154, 0.15), rgba(199, 107, 138, 0.08));
+        border: 1px dashed var(--accent-pink);
+        border-radius: 8px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        color: var(--accent-pink);
+      }
+
+      @media (max-width: 640px) {
+        body {
+          padding: 8px;
+        }
+
+        .folder-shell {
+          padding: 14px 12px 16px 44px;
+          border-radius: 16px;
+        }
+
+        .folder-header {
+          flex-direction: column;
+          align-items: stretch;
+        }
+
+        .opening-grid {
+          grid-template-columns: 1fr;
+        }
+
+        .community-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="folder-frame">
+      <div class="folder-shell">
+        <header class="folder-header">
+          <div class="brand-block">
+            <span class="brand-code">Hồ Sơ MS-07</span>
+            <span class="brand-title">Chinh Phục Mẹ</span>
+            <span class="author-tag">Tác giả: emo lsp</span>
+          </div>
+        </header>
+
+        <div class="content-area">
+          <div class="info-card">
+            <div class="card-header pink">
+              <span>▸ Tuyên bố bản quyền</span>
+            </div>
+            <div class="card-body">
+              <div class="notice-box warning">
+                <div class="notice-item">
+                  <span>📌</span>
+                  <span>Card nhân vật này hoàn toàn miễn phí, nghiêm cấm mọi hành vi thương mại hóa. Nếu bạn mua được card này, hãy yêu cầu hoàn tiền ngay và tố cáo kẻ bán lên nền tảng để bảo vệ quyền lợi của tác giả và bản thân.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-header pink">
+              <span>▸ Tuyên bố đăng lại</span>
+            </div>
+            <div class="card-body">
+              <div class="notice-box warning">
+                <div class="notice-item">
+                  <span>⚠</span>
+                  <span>Nghiêm cấm đăng tải tác phẩm này lên bất kỳ nền tảng nào khác khi chưa được tác giả cho phép rõ ràng.</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-header blue">
+              <span>▸ Giới thiệu nhân vật</span>
+            </div>
+            <div class="card-body">
+              <div class="info-row">
+                <span class="info-label">Tên nhân vật</span>
+                <span class="info-value">{{user}}</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Vai trò</span>
+                <span class="info-value">Học sinh lớp 12, con trai của Trịnh Di Vân</span>
+              </div>
+              <div class="info-row">
+                <span class="info-label">Trạng thái hiện tại</span>
+                <span class="info-value">Còn hơn một trăm ngày nữa là thi đại học</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-header blue">
+              <span>▸ Tham gia cộng đồng</span>
+            </div>
+            <div class="card-body">
+              <div class="community-grid">
+                <div class="community-card" onclick="copyQQGroup()">
+                  <div class="community-icon">🐧</div>
+                  <div class="community-title">Nhóm QQ</div>
+                  <div class="community-info">Nhấn để sao chép số nhóm<br />Sẽ có thông báo khi ra card mới~</div>
+                </div>
+                <div class="community-card" onclick="openDiscordWithConfirm()">
+                  <div class="community-icon">💬</div>
+                  <div class="community-title">Server Discord</div>
+                  <div class="community-info">Nhấn để mở liên kết</div>
+                </div>
+              </div>
+              <div class="qq-warning">
+                <span>⚠️</span>
+                <span>Ai vào rồi thoát ngay thì đừng vào, trong nhóm không có card</span>
+              </div>
+              <div class="preset-note">
+                Sẽ có thông báo khi ra card, chào mừng tham gia tán gẫu — các chủ đề liên quan đến SillyTavern... hoặc nhiều hơn thế...
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-header rose">
+              <span>▸ Nhấn | Bắt đầu câu chuyện</span>
+            </div>
+            <div class="card-body">
+              <div class="opening-grid">
+                <div class="opening-card" onclick="switchToOpening(1)">
+                  <div class="opening-badge">Cốt truyện ban đầu</div>
+                  <div class="opening-title">1. Sự cố thuốc bổ</div>
+                  <div class="opening-desc">
+                    Còn một trăm ba mươi bảy ngày nữa là thi đại học. Mẹ nấu cho con một bát canh gà thuốc, nói là bổ não tăng thần. Nhưng bát canh ấy có nhung hươu, uống vào người bắt đầu bốc hỏa khó chịu...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(2)">
+                  <div class="opening-badge">Cốt truyện căng thẳng</div>
+                  <div class="opening-title">2. Cơn bão chất vấn</div>
+                  <div class="opening-desc">
+                    Mẹ tát con một cái, rồi con thấy màn hình điện thoại của bà sáng lên — trong đó là video thân mật của con và An Nặc. Mặt bà trắng bệch, khóe mắt đỏ hoe...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(3)">
+                  <div class="opening-badge">Cốt truyện cấm kỵ</div>
+                  <div class="opening-title">3. Đêm say lầm lỡ</div>
+                  <div class="opening-desc">
+                    Cửa phòng đọc sách không khóa. Con tưởng người nằm trên giường là Y Y, nhưng khi đã vào rồi mới phát hiện đó là mẹ đang say rượu. Lý trí và dục vọng giao tranh trong bóng tối...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(4)">
+                  <div class="opening-badge">Cốt truyện trị liệu</div>
+                  <div class="opening-title">4. Buổi trị liệu đầu tiên</div>
+                  <div class="opening-desc">
+                    Mẹ mặc bộ vest xám đậm, tất quần siêu mỏng màu xám sắt. Đây là buổi "trị liệu phúc lợi" đầu tiên hai người thỏa thuận — chỉ được sờ chân, tay không được đi lên, quá mười phút tự động kết thúc...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(5)">
+                  <div class="opening-badge">Cốt truyện kinh điển</div>
+                  <div class="opening-title">5. Một đêm vợ chồng</div>
+                  <div class="opening-desc">
+                    Thi đại học kết quả ổn, đậu vào Bắc Thương. Hôm đó con chuẩn bị bữa tối nến lung linh và dùng toàn bộ tiền dành dụm mua chiếc nhẫn kim cương hơn hai nghìn tệ đeo vào tay mẹ, bà cuối cùng để chiếc nhẫn ở lại. Đêm đó con chính thức thâm nhập vào cơ thể mẹ...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(6)">
+                  <div class="opening-badge">Cốt truyện sự thật</div>
+                  <div class="opening-title">6. Sự thật về đứa con</div>
+                  <div class="opening-desc">
+                    Ngày mẹ đi công tác về, con cuối cùng hỏi ra câu hỏi đó — đứa con đã mất như thế nào? Bà nói, hôm đó nhận được điện thoại báo con bị xe đâm, bà chạy thẳng đến bệnh viện, đứa bé thế là mất...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(7)">
+                  <div class="opening-badge">Cốt truyện chương cuối</div>
+                  <div class="opening-title">7. Lễ cưới mùa xuân</div>
+                  <div class="opening-desc">
+                    Đám cưới với Y Y — trước khi rước dâu, con trốn vào phòng tân hôn. Chú rể bị phản ứng của cơ thể mình giam chân, rồi mẹ mặc chiếc sườn xám xanh thẫm bước vào...
+                  </div>
+                </div>
+
+                <div class="opening-card" onclick="switchToOpening(8)">
+                  <div class="opening-badge">Cốt truyện đại kết</div>
+                  <div class="opening-title">8. Kẻ thắng cuộc</div>
+                  <div class="opening-desc">
+                    Bốn năm sau đám cưới với Y Y, con đã tốt nghiệp đại học và đi làm được hơn một tháng. Bốn năm rồi. Từ cậu học sinh lớp 12 bị gọi phụ huynh, đến người đàn ông có vợ, có người tình, có mối quan hệ gia đình phức tạp như bây giờ. Đôi khi con cũng tự hỏi, mọi thứ đã trở nên thế này từ lúc nào. Nhưng nhiều hơn, con không muốn nghĩ. Cứ thế mà sống, cũng tốt.
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <div class="card-header gold">
+              <span>▸ Đọc trước khi sử dụng</span>
+            </div>
+            <div class="card-body">
+              <div class="notice-box">
+                <div class="notice-item">
+                  <span>✅</span>
+                  <span>Bắt buộc cài đặt và bật【Mẫu prompt】</span>
+                </div>
+                <div class="notice-item">
+                  <span>✅</span>
+                  <span>Bắt buộc cài đặt và cập nhật【Tavern Assistant】lên phiên bản mới nhất</span>
+                </div>
+                <div class="notice-item">
+                  <span>❌</span>
+                  <span>Bắt buộc tắt【Công tắc render】của XiaoBAI X, nếu chưa cài thì bỏ qua</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="footer-note">Bạn đã sẵn sàng bắt đầu chưa?</div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      function copyQQGroup() {
+        const groupNumber = '151611202';
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard
+            .writeText(groupNumber)
+            .then(() => {
+              if (typeof triggerSlash === 'function') {
+                triggerSlash('/echo severity=success Đã sao chép số nhóm QQ vào clipboard!');
+              } else {
+                alert('Đã sao chép số nhóm: ' + groupNumber);
+              }
+            })
+            .catch(() => {
+              fallbackCopy(groupNumber);
+            });
+        } else {
+          fallbackCopy(groupNumber);
+        }
+      }
+
+      function fallbackCopy(text) {
+        const textArea = document.createElement('textarea');
+        textArea.value = text;
+        textArea.style.position = 'fixed';
+        textArea.style.left = '-999999px';
+        document.body.appendChild(textArea);
+        textArea.select();
+        try {
+          document.execCommand('copy');
+          if (typeof triggerSlash === 'function') {
+            triggerSlash('/echo severity=success Đã sao chép số nhóm QQ vào clipboard!');
+          } else {
+            alert('Đã sao chép số nhóm: ' + text);
+          }
+        } catch (err) {
+          if (typeof triggerSlash === 'function') {
+            triggerSlash('/echo severity=error Sao chép thất bại, vui lòng sao chép thủ công số nhóm: 151611202');
+          } else {
+            alert('Sao chép thất bại, vui lòng sao chép thủ công số nhóm: 151611202');
+          }
+        }
+        document.body.removeChild(textArea);
+      }
+
+      function openDiscordWithConfirm() {
+        if (confirm('Sắp chuyển đến server Discord, bạn có muốn tiếp tục?')) {
+          window.open('https://discord.gg/x3aKHgfE3u', '_blank');
+        }
+      }
+
+      async function switchToOpening(swipeId) {
+        const clickedCard = event.currentTarget;
+
+        if (clickedCard) {
+          clickedCard.style.opacity = '0.6';
+          clickedCard.style.pointerEvents = 'none';
+        }
+
+        try {
+          const messages = await getChatMessages('0', { include_swipe: true });
+          if (messages && messages[0].swipes && messages[0].swipes[swipeId]) {
+            await setChatMessage(messages[0].swipes[swipeId], 0, {
+              swipe_id: swipeId,
+              refresh: 'display_and_render_current',
+            });
+          } else {
+            throw new Error(`Cảnh mở đầu ${swipeId} không tìm thấy, hãy đảm bảo đã thêm đủ các cảnh theo thứ tự.`);
+          }
+        } catch (error) {
+          console.error('Chuyển cảnh mở đầu thất bại:', error);
+          alert(`Chuyển thất bại: ${error.message}`);
+          if (clickedCard) {
+            clickedCard.style.opacity = '1';
+            clickedCard.style.pointerEvents = 'auto';
+          }
+        }
+      }
+    </script>
+  </body>
+</html>
